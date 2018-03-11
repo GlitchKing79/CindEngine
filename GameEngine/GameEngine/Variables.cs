@@ -120,7 +120,19 @@ namespace CindEngine
 
         public float x;
         public float y;
-        public float magnitude;
+        public float magnitude
+        {
+            get { return (float)(Math.Sqrt((x * x) + (y * y))); }
+        }
+        public Vector normal
+        {
+            get
+            {
+                float Nx = (x != 0) ? x / magnitude : 0;
+                float Ny = (y != 0) ? y / magnitude : 0;
+                return new Vector(Nx, Ny);
+            }
+        }
 
         public override string ToString()
         {
@@ -161,7 +173,6 @@ namespace CindEngine
         {
             this.x = x;
             this.y = y;
-            magnitude = GetMagnitude(x,y);
         }
 
         public Vector Rotate(float rotation)
@@ -175,31 +186,6 @@ namespace CindEngine
             Vector v = this - origin;
             return (float)(Math.Atan2(v.y,v.x) * (Math.PI/180));
         }
-
-        /// <summary>
-        /// gets the maginitude of 2 points
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <returns>magnitude</returns>
-        public static float GetMagnitude(float x, float y)
-        {
-            return (float)(Math.Sqrt((x * x) + (y * y)));
-        }
-        
-
-        /// <summary>
-        /// gives a normized vector the when x+y = 1
-        /// </summary>
-        /// <param name="vector"></param>
-        /// <returns></returns>
-        public Vector GetNormal()
-        {
-            float Nx = (x != 0) ? x / magnitude : 0;
-            float Ny = (y != 0) ? y / magnitude : 0;
-            return new Vector(Nx, Ny);
-        }
-
     }
 
     public class Bounds
@@ -440,12 +426,16 @@ namespace CindEngine
         bool[] OnCollision()
         {
             bool[] collided = new bool[4];
+            if (!canCollied)
+            {
+                return collided;
+            }
             Collision[] colliders = GetAllCollsions();
             for (int i = 0; i < colliders.Length; i++)
             {
                 if (holder != colliders[i].holder)
                 {
-                    if (collisionBounds != Bounds.empty && colliders[i].collisionBounds != Bounds.empty)
+                    if (collisionBounds != Bounds.empty && colliders[i].collisionBounds != Bounds.empty && colliders[i].canCollied)
                     {
                         float rot1 = holder.rotation;
                         Vector v1 = new Vector(GameForm.gameClass.width, GameForm.gameClass.height);
@@ -510,10 +500,10 @@ namespace CindEngine
                         //right collision
                         if (objectPoints[2] == otherPoints[0])
                         {
-                            if (objectPoints[1] + (objectPoints[3] - objectPoints[1]) >= otherPoints[1] && objectPoints[1] + (objectPoints[3] - objectPoints[1]) <= otherPoints[3])
+                            if (objectPoints[1] + (objectPoints[3] - objectPoints[1]) > otherPoints[1] && objectPoints[1] + (objectPoints[3] - objectPoints[1]) < otherPoints[3])
                             {
                                 collided[0] = true;
-                            } else if (objectPoints[1] >= otherPoints[1] && objectPoints[1] <= otherPoints[3])
+                            } else if (objectPoints[1] > otherPoints[1] && objectPoints[1] < otherPoints[3])
                             {
                                 collided[0] = true;
                             }
@@ -521,11 +511,11 @@ namespace CindEngine
                         //left collision
                         if (objectPoints[0] == otherPoints[2])
                         {
-                            if (objectPoints[1] + (objectPoints[3] - objectPoints[1]) >= otherPoints[1] && objectPoints[1] + (objectPoints[3] - objectPoints[1]) <= otherPoints[3])
+                            if (objectPoints[1] + (objectPoints[3] - objectPoints[1]) > otherPoints[1] && objectPoints[1] + (objectPoints[3] - objectPoints[1]) < otherPoints[3])
                             {
                                 collided[1] = true;
                             }
-                            else if (objectPoints[1] >= otherPoints[1] && objectPoints[1] <= otherPoints[3])
+                            else if (objectPoints[1] > otherPoints[1] && objectPoints[1] < otherPoints[3])
                             {
                                 collided[1] = true;
                             }
@@ -533,10 +523,10 @@ namespace CindEngine
                         //down collsion
                         if (objectPoints[3] == otherPoints[1])
                         {
-                            if (objectPoints[0] + (objectPoints[2] - objectPoints[0]) >= otherPoints[0] && objectPoints[0] + (objectPoints[2] - objectPoints[0]) <= otherPoints[2])
+                            if (objectPoints[0] + (objectPoints[2] - objectPoints[0]) > otherPoints[0] && objectPoints[0] + (objectPoints[2] - objectPoints[0]) < otherPoints[2])
                             {
                                 collided[2] = true;
-                            } else if (objectPoints[0] >= otherPoints[0] && objectPoints[0] <= otherPoints[2])
+                            } else if (objectPoints[0] > otherPoints[0] && objectPoints[0] < otherPoints[2])
                             {
                                 collided[2] = true;
                             }
@@ -544,11 +534,11 @@ namespace CindEngine
                         //up collision
                         if (objectPoints[1] == otherPoints[3])
                         {
-                            if (objectPoints[0] + (objectPoints[2] - objectPoints[0]) >= otherPoints[0] && objectPoints[0] + (objectPoints[2] - objectPoints[0]) <= otherPoints[2])
+                            if (objectPoints[0] + (objectPoints[2] - objectPoints[0]) > otherPoints[0] && objectPoints[0] + (objectPoints[2] - objectPoints[0]) < otherPoints[2])
                             {
                                 collided[3] = true;
                             }
-                            else if (objectPoints[0] >= otherPoints[0] && objectPoints[0] <= otherPoints[2])
+                            else if (objectPoints[0] > otherPoints[0] && objectPoints[0] < otherPoints[2])
                             {
                                 collided[3] = true;
                             }
@@ -576,6 +566,18 @@ namespace CindEngine
         public string tag = "default";
         private int layer = 0;
         public float rotation = 0;
+
+        private int _frame = 0;
+        public int frame
+        {
+            get { return _frame; }
+            set
+            {
+                _frame = value;
+                System.Drawing.Imaging.FrameDimension frameDim = new System.Drawing.Imaging.FrameDimension(image.FrameDimensionsList[0]);
+                image.SelectActiveFrame(frameDim, value);
+            }
+        }
 
         public static int topLayer = 0;
         static List<GameObject> allObjects = new List<GameObject>();

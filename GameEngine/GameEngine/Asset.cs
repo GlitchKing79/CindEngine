@@ -17,5 +17,15 @@ namespace CindEngine
         {
             return new Bitmap(location);
         }
+
+        public static string LocalDataPath()
+        {
+            return System.Windows.Forms.Application.StartupPath;
+        }
+
+        public static Image LoadAnimation(string location)
+        {
+            return Image.FromFile(location);
+        }
     }
 }

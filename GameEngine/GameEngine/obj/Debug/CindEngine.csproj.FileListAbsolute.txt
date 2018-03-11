@@ -7,3 +7,12 @@ C:\Users\Zak\Documents\GitKraken\CindEngine\GameEngine\GameEngine\obj\Debug\Cind
 C:\Users\Zak\Documents\GitKraken\CindEngine\GameEngine\GameEngine\obj\Debug\CindEngine.csproj.GenerateResource.Cache
 C:\Users\Zak\Documents\GitKraken\CindEngine\GameEngine\GameEngine\obj\Debug\CindEngine.dll
 C:\Users\Zak\Documents\GitKraken\CindEngine\GameEngine\GameEngine\obj\Debug\CindEngine.pdb
+C:\Users\lyncza301\Documents\GitKraken\CindEngine\GameEngine\GameEngine\bin\Debug\CindEngine.dll.config
+C:\Users\lyncza301\Documents\GitKraken\CindEngine\GameEngine\GameEngine\bin\Debug\CindEngine.dll
+C:\Users\lyncza301\Documents\GitKraken\CindEngine\GameEngine\GameEngine\bin\Debug\CindEngine.pdb
+C:\Users\lyncza301\Documents\GitKraken\CindEngine\GameEngine\GameEngine\obj\Debug\CindEngine.csprojResolveAssemblyReference.cache
+C:\Users\lyncza301\Documents\GitKraken\CindEngine\GameEngine\GameEngine\obj\Debug\CindEngine.GameForm.resources
+C:\Users\lyncza301\Documents\GitKraken\CindEngine\GameEngine\GameEngine\obj\Debug\CindEngine.Properties.Resources.resources
+C:\Users\lyncza301\Documents\GitKraken\CindEngine\GameEngine\GameEngine\obj\Debug\CindEngine.csproj.GenerateResource.Cache
+C:\Users\lyncza301\Documents\GitKraken\CindEngine\GameEngine\GameEngine\obj\Debug\CindEngine.dll
+C:\Users\lyncza301\Documents\GitKraken\CindEngine\GameEngine\GameEngine\obj\Debug\CindEngine.pdb
