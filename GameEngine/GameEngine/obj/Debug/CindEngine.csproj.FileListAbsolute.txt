@@ -1,0 +1,9 @@
+C:\Users\Zak\Documents\GitKraken\CindEngine\GameEngine\GameEngine\bin\Debug\CindEngine.dll.config
+C:\Users\Zak\Documents\GitKraken\CindEngine\GameEngine\GameEngine\bin\Debug\CindEngine.dll
+C:\Users\Zak\Documents\GitKraken\CindEngine\GameEngine\GameEngine\bin\Debug\CindEngine.pdb
+C:\Users\Zak\Documents\GitKraken\CindEngine\GameEngine\GameEngine\obj\Debug\CindEngine.csprojResolveAssemblyReference.cache
+C:\Users\Zak\Documents\GitKraken\CindEngine\GameEngine\GameEngine\obj\Debug\CindEngine.GameForm.resources
+C:\Users\Zak\Documents\GitKraken\CindEngine\GameEngine\GameEngine\obj\Debug\CindEngine.Properties.Resources.resources
+C:\Users\Zak\Documents\GitKraken\CindEngine\GameEngine\GameEngine\obj\Debug\CindEngine.csproj.GenerateResource.Cache
+C:\Users\Zak\Documents\GitKraken\CindEngine\GameEngine\GameEngine\obj\Debug\CindEngine.dll
+C:\Users\Zak\Documents\GitKraken\CindEngine\GameEngine\GameEngine\obj\Debug\CindEngine.pdb

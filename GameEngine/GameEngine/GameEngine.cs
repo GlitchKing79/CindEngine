@@ -61,7 +61,10 @@ namespace CindEngine
             {
                 if (Environment.TickCount >= startTime + 1)
                 {
-                    Update();
+                    if (assetsLoaded)
+                    {
+                        Update();
+                    }
                     Input.MOUSE_LEFT_GAME = false;
                     Input.MOUSE_LEFT_GUI = false;
                     startTime = Environment.TickCount;

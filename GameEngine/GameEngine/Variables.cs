@@ -506,34 +506,54 @@ namespace CindEngine
 
                         objectPoints = new int[] { x2a, y2a, x1a, y1a };
                         otherPoints = new int[] { x2b, y2b, x1b, y1b };
-
-
+                        
+                        //right collision
                         if (objectPoints[2] == otherPoints[0])
                         {
-                            if (objectPoints[1] >= otherPoints[1] && objectPoints[1] <= otherPoints[3])
+                            if (objectPoints[1] + (objectPoints[3] - objectPoints[1]) >= otherPoints[1] && objectPoints[1] + (objectPoints[3] - objectPoints[1]) <= otherPoints[3])
                             {
-                                Console.WriteLine("Normal Collision 1");
                                 collided[0] = true;
-                            } else if (objectPoints[1] + (objectPoints[3] - objectPoints[1]) <= otherPoints[1] && objectPoints[1] - (objectPoints[3] - objectPoints[1]) <= otherPoints[3])
+                            } else if (objectPoints[1] >= otherPoints[1] && objectPoints[1] <= otherPoints[3])
                             {
-                                Console.WriteLine("Half Collision 1");
                                 collided[0] = true;
                             }
                         }
-                        //
+                        //left collision
                         if (objectPoints[0] == otherPoints[2])
                         {
-                            if (objectPoints[1] >= otherPoints[1] && objectPoints[1] <= otherPoints[3])
+                            if (objectPoints[1] + (objectPoints[3] - objectPoints[1]) >= otherPoints[1] && objectPoints[1] + (objectPoints[3] - objectPoints[1]) <= otherPoints[3])
                             {
-                                Console.WriteLine("Normal Collision 2");
                                 collided[1] = true;
                             }
-                            else if (objectPoints[1] + (objectPoints[3] - objectPoints[1])/4 <= otherPoints[1] && objectPoints[1] - (objectPoints[3] - objectPoints[1])/4 >= otherPoints[3])
+                            else if (objectPoints[1] >= otherPoints[1] && objectPoints[1] <= otherPoints[3])
                             {
-                                Console.WriteLine("Half Collision 2");
                                 collided[1] = true;
                             }
                         }
+                        //down collsion
+                        if (objectPoints[3] == otherPoints[1])
+                        {
+                            if (objectPoints[0] + (objectPoints[2] - objectPoints[0]) >= otherPoints[0] && objectPoints[0] + (objectPoints[2] - objectPoints[0]) <= otherPoints[2])
+                            {
+                                collided[2] = true;
+                            } else if (objectPoints[0] >= otherPoints[0] && objectPoints[0] <= otherPoints[2])
+                            {
+                                collided[2] = true;
+                            }
+                        }
+                        //up collision
+                        if (objectPoints[1] == otherPoints[3])
+                        {
+                            if (objectPoints[0] + (objectPoints[2] - objectPoints[0]) >= otherPoints[0] && objectPoints[0] + (objectPoints[2] - objectPoints[0]) <= otherPoints[2])
+                            {
+                                collided[3] = true;
+                            }
+                            else if (objectPoints[0] >= otherPoints[0] && objectPoints[0] <= otherPoints[2])
+                            {
+                                collided[3] = true;
+                            }
+                        }
+
                     }
                 }
             }

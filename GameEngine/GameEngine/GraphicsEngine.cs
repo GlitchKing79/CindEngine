@@ -14,6 +14,7 @@ namespace CindEngine.Renderer
 
         public static Graphics drawHandle;
         private Thread renderThread;
+        public bool assetsLoaded = false;
         public GraphicsEngine(Graphics g, GameEngine game)
         {
             drawHandle = g;
@@ -41,7 +42,7 @@ namespace CindEngine.Renderer
             drawHandle.DrawString("Loading", new Font(new FontFamily(System.Drawing.Text.GenericFontFamilies.Monospace), 24), new SolidBrush(Color.Black), 0, 0);
 
             LoadAssets();
-
+            assetsLoaded = true;
             renderThread = new Thread(new ThreadStart(Render));
             renderThread.Start();
         }
@@ -87,8 +88,6 @@ namespace CindEngine.Renderer
         /// <param name="gameobject">Target GameObject</param>
         public static void RenderObject(Graphics graphics, GameObject gameobject)
         {
-            try
-            {
                 if (gameobject.collider.collisionBounds != Bounds.empty)
                 {
                     if (gameobject.rotation > 360)
@@ -125,11 +124,6 @@ namespace CindEngine.Renderer
                 {
                     graphics.DrawImage(gameobject.image, gameobject.position.x, gameobject.position.y);
                 }
-            }
-            catch
-            {
-
-            }
         }
 
         /// <summary>
@@ -162,16 +156,11 @@ namespace CindEngine.Renderer
         /// <param name="code">On Click Event</param>
         public static void RenderButton(Graphics graphics,Color color,Vector position, Bounds bounds, Action code)
         {
-            try
-            {
                 graphics.FillRectangle(new SolidBrush(color), position.x + bounds.points[0].x, position.y + bounds.points[0].y, bounds.points[2].x, bounds.points[2].y);
                 if (Input.MousePressedArea(bounds + position, graphics))
                 {
                     code.Invoke();
                 }
-            }
-            catch {}
-            
         }
 
         /// <summary>
@@ -183,11 +172,7 @@ namespace CindEngine.Renderer
         /// <param name="bounds">Rectangle of the box</param>
         public static void RenderBox(Graphics graphics, Color color, Vector position, Bounds bounds)
         {
-            try
-            {
                 graphics.FillRectangle(new SolidBrush(color), position.x + bounds.points[0].x, position.y, bounds.points[2].x, bounds.points[2].y);
-            }
-            catch {}
         }
 
         /// <summary>
@@ -195,19 +180,29 @@ namespace CindEngine.Renderer
         /// </summary>
         /// <param name="graphics">Target graphics</param>
         /// <param name="gameobject">Target GameObject</param>
-        public static void RenderCollisionBox(Graphics graphics,GameObject gameobject)
+        public static void RenderCollisionBox(Graphics graphics, GameObject gameobject)
         {
-            try
+            Vector pos = gameobject.position;
+            int[] v = gameobject.collider.objectPoints;
+            if (v == null)
             {
-                Vector pos = gameobject.position;
-                int[] v = gameobject.collider.objectPoints;
-                Pen p = new Pen(Color.Green);
-                PointF[] poly = new PointF[] { new PointF(v[0], v[1]), new PointF(v[2] - (v[2] - v[0])/2,v[1] - 10), new PointF(v[2],v[1]), new PointF(v[2] + 10, v[3] - (v[3] - v[1])/2), new PointF(v[2],v[3]), new PointF(v[0] + (v[2] - v[0])/2, v[3] + 10), new PointF(v[0],v[3]), new PointF(v[0],v[3] - (v[3] - v[1])/2)};
-                
-
-                graphics.DrawPolygon(p, poly);
+                return;
             }
-            catch {}
+            Pen p = new Pen(Color.Green);
+            PointF[] poly = new PointF[8];
+
+            poly[0] = new PointF(v[0], v[1]);
+            poly[1] = new PointF(v[2] - (v[2] - v[0]) / 2, v[1] - 10);
+            poly[2] = new PointF(v[2], v[1]);
+            poly[3] = new PointF(v[2] + 10, v[3] - (v[3] - v[1]) / 2);
+            poly[4] = new PointF(v[2], v[3]);
+            poly[5] = new PointF(v[0] + (v[2] - v[0]) / 2, v[3] + 10);
+            poly[6] = new PointF(v[0], v[3]);
+            poly[7] = new PointF(v[0] - 10, v[3] - (v[3] - v[1]) / 2);
+
+
+            graphics.DrawPolygon(p, poly);
+
         }
 
         /// <summary>
