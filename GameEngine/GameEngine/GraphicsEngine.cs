@@ -34,17 +34,63 @@ namespace CindEngine.Renderer
             Console.WriteLine("Loading Assets");
         }
 
+        Thread loadingThread;
+
         /// <summary>
         /// starts the graphics engine and loads assets
         /// </summary>
         public void GraphicsInit()
         {
-            drawHandle.DrawString("Loading", new Font(new FontFamily(System.Drawing.Text.GenericFontFamilies.Monospace), 24), new SolidBrush(Color.Black), 0, 0);
-
+            loadingThread = new Thread(new ThreadStart(LogoAnimation));
+            loadingThread.Start();
             LoadAssets();
             assetsLoaded = true;
+            loadingThread.Abort();
             renderThread = new Thread(new ThreadStart(Render));
             renderThread.Start();
+
+        }
+        void LogoAnimation()
+        {
+            Bitmap grame = new Bitmap(game.width, game.height);
+            Graphics grameGraphics = Graphics.FromImage(grame);
+            Vector vN = new Vector(152, 170).normal;
+            GameObject go = new GameObject("logo", CindEngine.Properties.Resources.logo, new Vector(50, game.height - 50), new Bounds(-(100 * vN.x)/2, -(100 * vN.y)/2, (100 * vN.x) / 2, (100 * vN.y) / 2));
+            while (true)
+            {
+                grameGraphics.FillRectangle(new SolidBrush(backColor), 0, 0, game.width, game.height);
+                if (go.rotation > 360)
+                {
+                    go.rotation = 0;
+                }
+                if (go.rotation < 0)
+                {
+                    go.rotation = 360;
+                }
+                PointF[] points = new PointF[3];
+                for (int i = 0; i < 3; i++)
+                {
+                    int x;
+                    if (i == 2)
+                    {
+                        x = 3;
+                    }
+                    else if (i == 3)
+                    {
+                        x = 1;
+                    }
+                    else
+                    {
+                        x = i;
+                    }
+                    Vector v = go.collider.collisionBounds.points[x].Rotate(go.rotation); //- gameobject.collider.collisionBounds.points[2].Rotate(gameobject.rotation) / 2;
+                    points[i] = new PointF(go.position.x + v.x, go.position.y + v.y);
+
+                }
+                grameGraphics.DrawImage(go.image, points);
+                go.rotation += 1;
+                drawHandle.DrawImage(grame, 0, 0);
+            }
         }
 
         /// <summary>

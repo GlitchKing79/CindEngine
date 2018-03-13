@@ -8,11 +8,93 @@ using System.Windows.Input;
 using CindEngine.Renderer;
 namespace CindEngine
 {
+    public enum InputKeys
+    {
+        esc = 27,
+        f1 = 112,
+        f2 = 113,
+        f3 = 114,
+        f4 = 115,
+        f5 = 116,
+        f6 = 117,
+        f7 = 118,
+        f8 = 119,
+        f9 = 120,
+        f10 = 121,
+        f11 = 122,
+        f12 = 123,
+        ins = 45,
+        del = 46,
+        tilde = 192,
+        one = 49,
+        two = 50,
+        three = 51,
+        four = 52,
+        five = 53,
+        six = 54,
+        seven = 55,
+        eight = 56,
+        nine = 57,
+        zero = 48,
+        hiphen = 189,
+        equals = 187,
+        backSpace = 8,
+        tab = 9,
+        q = 81,
+        w = 87,
+        e = 69,
+        r = 82,
+        t = 84,
+        y = 89,
+        u = 85,
+        i = 73,
+        o = 79,
+        p = 80,
+        leftSquareBracket = 219,
+        rightSquareBracket = 221,
+        forwardSlash = 220,
+        capsLock = 20,
+        a = 65,
+        s = 83,
+        d = 68,
+        f = 60,
+        g = 71,
+        h = 72,
+        j = 74,
+        k = 75,
+        l = 76,
+        semicolon = 186,
+        quote = 222,
+        enter = 13,
+        leftShift = 16,
+        z = 90,
+        x = 88,
+        c = 67,
+        v = 86,
+        b = 66,
+        n = 78,
+        m = 77,
+        comma = 188,
+        fullStop = 190,
+        backSlash = 191,
+        rightShift = 16,
+        leftControl = 17,
+        windows = 91,
+        leftAlt = 17,
+        space = 32,
+        rightAlt = 18,
+        pageUp = 33,
+        up = 38,
+        pageDown = 34,
+        left = 37,
+        down = 40,
+        right = 39,
+    }
     public class Input
     {
-        public static List<char> INPUT_KEYS = new List<char>();
-        public static List<char> INPUT_KEYS_DOWN = new List<char>();
-        public static List<char> INPUT_KEYS_UP = new List<char>();
+        public static List<InputKeys> INPUT_KEYS = new List<InputKeys>();
+        public static List<InputKeys> INPUT_KEYS_DOWN = new List<InputKeys>();
+        public static List<InputKeys> INPUT_KEYS_UP = new List<InputKeys>();
 
         public static bool MOUSE_LEFT_GUI = false;
         public static bool MOUSE_LEFT_GAME = false;
@@ -38,7 +120,7 @@ namespace CindEngine
         /// </summary>
         /// <param name="c">Target key</param>
         /// <returns>True or false</returns>
-        public static bool GetKey(char c)
+        public static bool GetKey(InputKeys c)
         {
             return INPUT_KEYS.Contains(c);
         }
@@ -48,7 +130,7 @@ namespace CindEngine
         /// </summary>
         /// <param name="c">Target key</param>
         /// <returns>True or false</returns>
-        public static bool GetKeyDown(char c)
+        public static bool GetKeyDown(InputKeys c)
         {
             bool isKeyPressed = INPUT_KEYS_DOWN.Contains(c);
             INPUT_KEYS_DOWN.Remove(c);
@@ -60,7 +142,7 @@ namespace CindEngine
         /// </summary>
         /// <param name="c">Target key</param>
         /// <returns>True or false</returns>
-        public static bool GetKeyUp(char c)
+        public static bool GetKeyUp(InputKeys c)
         {
             bool isKeyPressed = INPUT_KEYS_UP.Contains(c);
             INPUT_KEYS_UP.Remove(c);
@@ -426,10 +508,7 @@ namespace CindEngine
         bool[] OnCollision()
         {
             bool[] collided = new bool[4];
-            if (!canCollied)
-            {
-                return collided;
-            }
+            
             Collision[] colliders = GetAllCollsions();
             for (int i = 0; i < colliders.Length; i++)
             {
@@ -503,7 +582,7 @@ namespace CindEngine
                             if (objectPoints[1] + (objectPoints[3] - objectPoints[1]) > otherPoints[1] && objectPoints[1] + (objectPoints[3] - objectPoints[1]) < otherPoints[3])
                             {
                                 collided[0] = true;
-                            } else if (objectPoints[1] > otherPoints[1] && objectPoints[1] < otherPoints[3])
+                            } if (objectPoints[1] > otherPoints[1] && objectPoints[1] < otherPoints[3])
                             {
                                 collided[0] = true;
                             }
@@ -515,7 +594,7 @@ namespace CindEngine
                             {
                                 collided[1] = true;
                             }
-                            else if (objectPoints[1] > otherPoints[1] && objectPoints[1] < otherPoints[3])
+                            if (objectPoints[1] > otherPoints[1] && objectPoints[1] < otherPoints[3])
                             {
                                 collided[1] = true;
                             }
@@ -526,7 +605,7 @@ namespace CindEngine
                             if (objectPoints[0] + (objectPoints[2] - objectPoints[0]) > otherPoints[0] && objectPoints[0] + (objectPoints[2] - objectPoints[0]) < otherPoints[2])
                             {
                                 collided[2] = true;
-                            } else if (objectPoints[0] > otherPoints[0] && objectPoints[0] < otherPoints[2])
+                            } if (objectPoints[0] > otherPoints[0] && objectPoints[0] < otherPoints[2])
                             {
                                 collided[2] = true;
                             }
@@ -538,7 +617,7 @@ namespace CindEngine
                             {
                                 collided[3] = true;
                             }
-                            else if (objectPoints[0] > otherPoints[0] && objectPoints[0] < otherPoints[2])
+                             if (objectPoints[0] > otherPoints[0] && objectPoints[0] < otherPoints[2])
                             {
                                 collided[3] = true;
                             }

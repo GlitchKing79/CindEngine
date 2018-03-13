@@ -97,6 +97,12 @@ namespace CindEngine
             GameStop();
         }
 
+        public void Exit()
+        {
+            Environment.Exit(0);
+            StopGame();
+        }
+
 
     }
 }

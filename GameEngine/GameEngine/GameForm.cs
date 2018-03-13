@@ -99,11 +99,11 @@ namespace CindEngine
         /// <param name="e"></param>
         private void GameForm_KeyDown(object sender, KeyEventArgs e)
         {
-            if (!Input.INPUT_KEYS.Contains((char)e.KeyCode))
+            if (!Input.INPUT_KEYS.Contains((InputKeys)e.KeyValue))
             {
-                Input.INPUT_KEYS.Add((char)e.KeyCode);
-                Input.INPUT_KEYS_DOWN.Add((char)e.KeyCode);
-                Input.INPUT_KEYS_UP.Add((char)e.KeyCode);
+                Input.INPUT_KEYS.Add((InputKeys)e.KeyValue);
+                Input.INPUT_KEYS_DOWN.Add((InputKeys)e.KeyValue);
+                Input.INPUT_KEYS_UP.Add((InputKeys)e.KeyValue);
             }
         }
 
@@ -114,9 +114,9 @@ namespace CindEngine
         /// <param name="e"></param>
         private void GameForm_KeyUp(object sender, KeyEventArgs e)
         {
-            Input.INPUT_KEYS.Remove((char)e.KeyCode);
-            Input.INPUT_KEYS_DOWN.Remove((char)e.KeyCode);
-            Input.INPUT_KEYS_UP.Remove((char)e.KeyCode);
+            Input.INPUT_KEYS.Remove((InputKeys)e.KeyValue);
+            Input.INPUT_KEYS_DOWN.Remove((InputKeys)e.KeyValue);
+            Input.INPUT_KEYS_UP.Remove((InputKeys)e.KeyValue);
         }
 
         /// <summary>
