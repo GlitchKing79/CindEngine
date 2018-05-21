@@ -96,22 +96,13 @@ namespace CindEngine
         public static List<InputKeys> INPUT_KEYS_DOWN = new List<InputKeys>();
         public static List<InputKeys> INPUT_KEYS_UP = new List<InputKeys>();
 
-        public static bool MOUSE_LEFT_GUI = false;
-        public static bool MOUSE_LEFT_GAME = false;
+        public static bool MOUSE_LEFT_BUTTON = false;
 
-        /// <summary>
-        /// The current mous position on the window
-        /// </summary>
-        /// <returns>Mouse Position</returns>
-        public static Vector MousePosition()
+        public static Vector mousePosition
         {
-            try
+            get
             {
                 return new Vector(System.Windows.Forms.Cursor.Position.X - System.Windows.Forms.Form.ActiveForm.DesktopLocation.X, System.Windows.Forms.Cursor.Position.Y - System.Windows.Forms.Form.ActiveForm.DesktopLocation.Y);
-            }
-            catch (Exception)
-            {
-                return new Vector(0, 0);
             }
         }
 
@@ -155,7 +146,7 @@ namespace CindEngine
         /// <param name="bounds"></param>
         public static bool MouseEnter(Bounds bounds)
         {
-            return (MousePosition().x > bounds.points[0].x && MousePosition().x < bounds.points[3].x && MousePosition().y > bounds.points[0].y && MousePosition().y < bounds.points[3].y);
+            return (mousePosition.x > bounds.points[0].x && mousePosition.x < bounds.points[3].x && mousePosition.y > bounds.points[0].y && mousePosition.y < bounds.points[3].y);
         }
 
         /// <summary>
@@ -167,7 +158,7 @@ namespace CindEngine
         {
             if (MouseEnter(bounds))
             {
-                return MOUSE_LEFT_GAME;
+                return MOUSE_LEFT_BUTTON;
             } else
             {
                 return false;
@@ -185,7 +176,7 @@ namespace CindEngine
             g.DrawRectangle(new Pen(Color.Green), bounds.points[0].x, bounds.points[0].y, bounds.points[3].x, bounds.points[3].y);
             if (MouseEnter(bounds))
             {
-                return MOUSE_LEFT_GUI;
+                return MOUSE_LEFT_BUTTON;
             }
             else
             {
@@ -268,13 +259,48 @@ namespace CindEngine
             Vector v = this - origin;
             return (float)(Math.Atan2(v.y,v.x) * (Math.PI/180));
         }
+
+        public PointF GetPointF()
+        {
+            return new PointF(this.x, this.y);
+        }
+
+        public Point GetPoint()
+        {
+            return new Point((int)this.x, (int)this.y);
+        }
     }
 
     public class Bounds
     {
         public Vector[] points = new Vector[4];
         public static Bounds empty = new Bounds(new Vector[] { new Vector(0,0), new Vector(0, 0) , new Vector(0, 0) , new Vector(0, 0) });
+        public PointF[] graphicBounds
+        {
+            get
+            {
+                PointF[] graphicPoints = new PointF[3];
+                for (int i = 0; i < 3; i++)
+                {
+                    int x;
+                    if (i == 2)
+                    {
+                        x = 3;
+                    }
+                    else if (i == 3)
+                    {
+                        x = 1;
+                    }
+                    else
+                    {
+                        x = i;
+                    }
+                    graphicPoints[i] = new PointF(points[x].x, points[x].y);
 
+                }
+                return graphicPoints;
+            }
+        }
         public static Bounds operator+(Bounds left, Bounds right)
         {
             Bounds b = Bounds.empty;
@@ -645,6 +671,7 @@ namespace CindEngine
         public string tag = "default";
         private int layer = 0;
         public float rotation = 0;
+        public bool visible = true;
 
         private int _frame = 0;
         public int frame

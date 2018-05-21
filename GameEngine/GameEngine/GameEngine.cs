@@ -65,8 +65,6 @@ namespace CindEngine
                     {
                         Update();
                     }
-                    Input.MOUSE_LEFT_GAME = false;
-                    Input.MOUSE_LEFT_GUI = false;
                     startTime = Environment.TickCount;
                 }
             }

@@ -14,9 +14,16 @@ namespace CindEngine
     public class GameForm : Form
     {
         public static GameEngine gameClass;
+        public static int formWidth = 0;
+        public static int formHeight = 0;
         public Panel canvas;
+        bool fullScreen = false;
         public GameForm(GameEngine game)
         {
+            if (fullScreen)
+            {
+                this.WindowState = FormWindowState.Maximized;
+            }
             gameClass = game;
             this.canvas = new System.Windows.Forms.Panel();
             this.SuspendLayout();
@@ -26,9 +33,13 @@ namespace CindEngine
             this.canvas.Dock = System.Windows.Forms.DockStyle.Fill;
             this.canvas.Location = new System.Drawing.Point(0, 0);
             this.canvas.Name = "canvas";
-            this.canvas.Size = new System.Drawing.Size(gameClass.width, gameClass.height);
+            this.canvas.Size = new System.Drawing.Size(0, 0);
+            this.canvas.Dock = DockStyle.Fill;
+            this.canvas.AutoSize = true;
             this.canvas.TabIndex = 0;
             this.canvas.Paint += new System.Windows.Forms.PaintEventHandler(this.canvas_Paint);
+            this.canvas.MouseDown += new MouseEventHandler(this.Game_MousePressDown);
+            this.canvas.MouseUp += new MouseEventHandler(this.Game_MousePressDown);
             // 
             // GameForm
             // 
@@ -43,8 +54,10 @@ namespace CindEngine
             this.Load += new System.EventHandler(this.GameForm_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GameForm_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GameForm_KeyUp);
-            canvas.Click += new EventHandler(this.Game_MousePress);
+            this.MouseDown += new MouseEventHandler(this.Game_MousePressDown);
+            this.MouseUp += new MouseEventHandler(this.Game_MousePressDown);
             this.ResumeLayout(false);
+            
         }
 
         /// <summary>
@@ -54,6 +67,8 @@ namespace CindEngine
         /// <param name="e"></param>
         private void canvas_Paint(object sender, PaintEventArgs e)
         {
+            formWidth = this.Width;
+            formHeight = this.Height;
             Graphics g = canvas.CreateGraphics();
             gameClass.StartGraphics(g);
         }
@@ -124,13 +139,14 @@ namespace CindEngine
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Game_MousePress(object sender, EventArgs e)
+        private void Game_MousePressDown(object sender, EventArgs e)
         {
-            
-                Input.MOUSE_LEFT_GAME = true;
-                Input.MOUSE_LEFT_GUI = true;
-            
-            
+            Input.MOUSE_LEFT_BUTTON = true;
+        }
+
+        private void Game_MousePressUp(object sender, EventArgs e)
+        {
+            Input.MOUSE_LEFT_BUTTON = false;
         }
     }
 }

@@ -50,6 +50,8 @@ namespace CindEngine.Renderer
             renderThread.Start();
 
         }
+
+        
         void LogoAnimation()
         {
             Bitmap grame = new Bitmap(game.width, game.height);
@@ -113,9 +115,17 @@ namespace CindEngine.Renderer
             frameGraphics = Graphics.FromImage(frame);
             while (true)
             {
+                try
+                {
                     frameGraphics.FillRectangle(new SolidBrush(backColor), 0, 0, game.width, game.height);
                     GUI();
                     drawHandle.DrawImage(frame, 0, 0);
+                }
+                catch
+                {
+                    Console.WriteLine("Renderer Broke Real Bad");
+                }
+                    
             }
         }
 
@@ -172,6 +182,17 @@ namespace CindEngine.Renderer
                 }
         }
 
+        public static void DrawImage(Graphics graphics, Image image, Vector position, Bounds size)
+        {
+            PointF[] points = new PointF[]
+            {
+                PointF.Add(position.GetPointF(),new SizeF(size.graphicBounds[0])),
+                PointF.Add(position.GetPointF(),new SizeF(size.graphicBounds[1])),
+                PointF.Add(position.GetPointF(),new SizeF(size.graphicBounds[2]))
+            };
+            graphics.DrawImage(image, points);
+        }
+
         /// <summary>
         /// renders and event handels a button with text
         /// </summary>
@@ -183,13 +204,10 @@ namespace CindEngine.Renderer
         /// <param name="code">On Click Event</param>
         public static void RenderButton(string label,Graphics graphics, Color color, Vector position, Bounds bounds, Action code)
         {
-            try
-            {
+            
                 RenderButton(graphics, color, position, bounds, code);
                 graphics.DrawString(label, new Font(new FontFamily(System.Drawing.Text.GenericFontFamilies.Monospace), 12), new SolidBrush(Color.Black), position.x + bounds.points[2].x / 10, position.y + bounds.points[2].y / 10);
-
-            }
-            catch {}
+            
             
         }
         /// <summary>
@@ -263,8 +281,10 @@ namespace CindEngine.Renderer
                 {
                     if (allObjects[x].Getlayer() == i)
                     {
-                        RenderObject(graphics, allObjects[x]);
-                        RenderCollisionBox(graphics, allObjects[x]);
+                        if (allObjects[x].visible)
+                        {
+                            RenderObject(graphics, allObjects[x]);
+                        }
                     }
                 }
             }
